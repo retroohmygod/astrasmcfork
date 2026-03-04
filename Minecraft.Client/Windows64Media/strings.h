@@ -2299,4 +2299,7 @@
 #define IDS_DESC_BOOTS_EMERALD                         2293
 #define IDS_ITEM_SWORD_EMERALD                         2294
 #define IDS_ITEM_PICKAXE_EMERALD                         2295
+#define IDS_ITEM_HATCHET_EMERALD                         2296
+#define IDS_ITEM_SHOVEL_EMERALD                         2297
+#define IDS_ITEM_HOE_EMERALD                         2298
 

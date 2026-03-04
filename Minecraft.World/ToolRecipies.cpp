@@ -33,39 +33,42 @@ void ToolRecipies::_init()
 	ADD_OBJECT(map[0],Tile::cobblestone);
 	ADD_OBJECT(map[0],Item::ironIngot);
 	ADD_OBJECT(map[0],Item::diamond);
-	//ADD_OBJECT(map[0],Item::emerald);
+	ADD_OBJECT(map[0],Item::emerald);
 	ADD_OBJECT(map[0],Item::goldIngot);
 
 	ADD_OBJECT(map[1],Item::pickAxe_wood);
 	ADD_OBJECT(map[1],Item::pickAxe_stone);
 	ADD_OBJECT(map[1],Item::pickAxe_iron);
 	ADD_OBJECT(map[1],Item::pickAxe_diamond);
-	//ADD_OBJECT(map[1],Item::pickAxe_emerald);
+	ADD_OBJECT(map[1],Item::pickAxe_emerald);
 	ADD_OBJECT(map[1],Item::pickAxe_gold);
 
 	ADD_OBJECT(map[2],Item::shovel_wood);
 	ADD_OBJECT(map[2],Item::shovel_stone);
 	ADD_OBJECT(map[2],Item::shovel_iron);
 	ADD_OBJECT(map[2],Item::shovel_diamond);
+	ADD_OBJECT(map[2],Item::shovel_emerald);
 	ADD_OBJECT(map[2],Item::shovel_gold);
 
 	ADD_OBJECT(map[3],Item::hatchet_wood);
 	ADD_OBJECT(map[3],Item::hatchet_stone);
 	ADD_OBJECT(map[3],Item::hatchet_iron);
 	ADD_OBJECT(map[3],Item::hatchet_diamond);
+	ADD_OBJECT(map[3],Item::hatchet_emerald);
 	ADD_OBJECT(map[3],Item::hatchet_gold);
 
 	ADD_OBJECT(map[4],Item::hoe_wood);
 	ADD_OBJECT(map[4],Item::hoe_stone);
 	ADD_OBJECT(map[4],Item::hoe_iron);
 	ADD_OBJECT(map[4],Item::hoe_diamond);
+	ADD_OBJECT(map[4],Item::hoe_emerald);
 	ADD_OBJECT(map[4],Item::hoe_gold);
 }
 
 void ToolRecipies::addRecipes(Recipes *r) 
 {
-	wchar_t wchTypes[7];
-	wchTypes[6]=0;
+	wchar_t wchTypes[8];
+	wchTypes[7]=0;
 
 	for (unsigned int m = 0; m < map[0].size(); m++) 
 	{
@@ -80,6 +83,7 @@ void ToolRecipies::addRecipes(Recipes *r)
 			wchTypes[2]=L'i';
 			wchTypes[3]=L'c';
 			wchTypes[5]=L'g';
+			wchTypes[6]=L'e';
 			if(pObjMaterial->GetType()==eType_TILE)
 			{
 				wchTypes[4]=L't';

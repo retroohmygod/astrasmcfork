@@ -62,7 +62,9 @@ Item *Item::pickAxe_diamond = NULL;
 Item *Item::hatchet_diamond = NULL;
 
 Item* Item::sword_emerald = NULL;
+Item *Item::shovel_emerald = NULL;
 Item* Item::pickAxe_emerald = NULL;
+Item *Item::hatchet_emerald = NULL;
 
 Item *Item::stick = NULL;
 Item *Item::bowl = NULL;
@@ -81,6 +83,7 @@ Item *Item::hoe_wood = NULL;
 Item *Item::hoe_stone = NULL;
 Item *Item::hoe_iron = NULL;
 Item *Item::hoe_diamond = NULL;
+Item *Item::hoe_emerald = NULL;
 Item *Item::hoe_gold = NULL;
 
 Item *Item::seeds_wheat = NULL;
@@ -274,6 +277,7 @@ void Item::staticCtor()
 	Item::shovel_stone		= ( new ShovelItem(17, _Tier::STONE) )		->setBaseItemTypeAndMaterial(eBaseItemType_shovel,	eMaterial_stone)	->setIconName(L"shovelStone")->setDescriptionId(IDS_ITEM_SHOVEL_STONE)->setUseDescriptionId(IDS_DESC_SHOVEL);
 	Item::shovel_iron		= ( new ShovelItem(0, _Tier::IRON) )		->setBaseItemTypeAndMaterial(eBaseItemType_shovel,	eMaterial_iron)		->setIconName(L"shovelIron")->setDescriptionId(IDS_ITEM_SHOVEL_IRON)->setUseDescriptionId(IDS_DESC_SHOVEL);
 	Item::shovel_diamond	= ( new ShovelItem(21, _Tier::DIAMOND) )	->setBaseItemTypeAndMaterial(eBaseItemType_shovel,	eMaterial_diamond)	->setIconName(L"shovelDiamond")->setDescriptionId(IDS_ITEM_SHOVEL_DIAMOND)->setUseDescriptionId(IDS_DESC_SHOVEL);
+	Item::shovel_emerald	= ( new ShovelItem(173, _Tier::EMERALD) )	->setBaseItemTypeAndMaterial(eBaseItemType_shovel,	eMaterial_emerald)	->setIconName(L"shovelEmerald")->setDescriptionId(IDS_ITEM_SHOVEL_EMERALD)->setUseDescriptionId(IDS_DESC_SHOVEL);
 	Item::shovel_gold		= ( new ShovelItem(28, _Tier::GOLD) )		->setBaseItemTypeAndMaterial(eBaseItemType_shovel,	eMaterial_gold)		->setIconName(L"shovelGold")->setDescriptionId(IDS_ITEM_SHOVEL_GOLD)->setUseDescriptionId(IDS_DESC_SHOVEL);
 
 	Item::pickAxe_wood		= ( new PickaxeItem(14, _Tier::WOOD) )		->setBaseItemTypeAndMaterial(eBaseItemType_pickaxe,	eMaterial_wood)		->setIconName(L"pickaxeWood")->setDescriptionId(IDS_ITEM_PICKAXE_WOOD)->setUseDescriptionId(IDS_DESC_PICKAXE);
@@ -287,12 +291,14 @@ void Item::staticCtor()
 	Item::hatchet_stone		= ( new HatchetItem(19, _Tier::STONE) )		->setBaseItemTypeAndMaterial(eBaseItemType_hatchet,	eMaterial_stone)	->setIconName(L"hatchetStone")->setDescriptionId(IDS_ITEM_HATCHET_STONE)->setUseDescriptionId(IDS_DESC_HATCHET);
 	Item::hatchet_iron		= ( new HatchetItem(2, _Tier::IRON) )		->setBaseItemTypeAndMaterial(eBaseItemType_hatchet,	eMaterial_iron)		->setIconName(L"hatchetIron")->setDescriptionId(IDS_ITEM_HATCHET_IRON)->setUseDescriptionId(IDS_DESC_HATCHET);
 	Item::hatchet_diamond	= ( new HatchetItem(23, _Tier::DIAMOND) )	->setBaseItemTypeAndMaterial(eBaseItemType_hatchet,	eMaterial_diamond)	->setIconName(L"hatchetDiamond")->setDescriptionId(IDS_ITEM_HATCHET_DIAMOND)->setUseDescriptionId(IDS_DESC_HATCHET);
+		Item::hatchet_emerald	= ( new HatchetItem(172, _Tier::EMERALD) )	->setBaseItemTypeAndMaterial(eBaseItemType_hatchet,	eMaterial_emerald)	->setIconName(L"hatchetEmerald")->setDescriptionId(IDS_ITEM_HATCHET_EMERALD)->setUseDescriptionId(IDS_DESC_HATCHET);
 	Item::hatchet_gold		= ( new HatchetItem(30, _Tier::GOLD) )		->setBaseItemTypeAndMaterial(eBaseItemType_hatchet,	eMaterial_gold)		->setIconName(L"hatchetGold")->setDescriptionId(IDS_ITEM_HATCHET_GOLD)->setUseDescriptionId(IDS_DESC_HATCHET);
 
 	Item::hoe_wood			= ( new HoeItem(34, _Tier::WOOD) )			->setBaseItemTypeAndMaterial(eBaseItemType_hoe,	eMaterial_wood)		->setIconName(L"hoeWood")->setDescriptionId(IDS_ITEM_HOE_WOOD)->setUseDescriptionId(IDS_DESC_HOE);
 	Item::hoe_stone			= ( new HoeItem(35, _Tier::STONE) )			->setBaseItemTypeAndMaterial(eBaseItemType_hoe,	eMaterial_stone)	->setIconName(L"hoeStone")->setDescriptionId(IDS_ITEM_HOE_STONE)->setUseDescriptionId(IDS_DESC_HOE);
 	Item::hoe_iron			= ( new HoeItem(36, _Tier::IRON) )			->setBaseItemTypeAndMaterial(eBaseItemType_hoe,	eMaterial_iron)		->setIconName(L"hoeIron")->setDescriptionId(IDS_ITEM_HOE_IRON)->setUseDescriptionId(IDS_DESC_HOE);
 	Item::hoe_diamond		= ( new HoeItem(37, _Tier::DIAMOND) )		->setBaseItemTypeAndMaterial(eBaseItemType_hoe,	eMaterial_diamond)	->setIconName(L"hoeDiamond")->setDescriptionId(IDS_ITEM_HOE_DIAMOND)->setUseDescriptionId(IDS_DESC_HOE);
+		Item::hoe_emerald		= ( new HoeItem(174, _Tier::EMERALD) )		->setBaseItemTypeAndMaterial(eBaseItemType_hoe,	eMaterial_emerald)	->setIconName(L"hoeEmerald")->setDescriptionId(IDS_ITEM_HOE_EMERALD)->setUseDescriptionId(IDS_DESC_HOE);
 	Item::hoe_gold			= ( new HoeItem(38, _Tier::GOLD) )			->setBaseItemTypeAndMaterial(eBaseItemType_hoe,	eMaterial_gold)		->setIconName(L"hoeGold")->setDescriptionId(IDS_ITEM_HOE_GOLD)->setUseDescriptionId(IDS_DESC_HOE);
 
 	Item::door_wood			= ( new DoorItem(68, Material::wood) )		->setBaseItemTypeAndMaterial(eBaseItemType_door,	eMaterial_wood)->setIconName(L"doorWood")->setDescriptionId(IDS_ITEM_DOOR_WOOD)->setUseDescriptionId(IDS_DESC_DOOR_WOOD);

@@ -219,7 +219,9 @@ public:
 	static Item *hatchet_diamond;
 
 	static Item* sword_emerald;
+		static Item *shovel_emerald;
 	static Item* pickAxe_emerald;
+		static Item *hatchet_emerald;
 
 	static Item *stick;
 	static Item *bowl;
@@ -238,6 +240,7 @@ public:
 	static Item *hoe_stone;
 	static Item *hoe_iron;
 	static Item *hoe_diamond;
+		static Item *hoe_emerald;
 	static Item *hoe_gold;
 
 	static Item *seeds_wheat;
@@ -632,6 +635,9 @@ public:
 	static const int boots_emerald_Id		= 425;
 	static const int sword_emerald_Id		= 426;
 	static const int pickAxe_emerald_Id		= 427;
+		static const int hatchet_emerald_Id		= 428;
+				static const int shovel_emerald_Id		= 429;
+								static const int hoe_emerald_Id		= 430;
 public:
 	const int id;
 
