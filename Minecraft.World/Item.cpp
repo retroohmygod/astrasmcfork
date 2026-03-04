@@ -26,6 +26,7 @@ const _Tier *_Tier::WOOD = new _Tier(0, 59, 2, 0, 15); //
 const _Tier *_Tier::STONE = new _Tier(1, 131, 4, 1, 5); //
 const _Tier *_Tier::IRON = new _Tier(2, 250, 6, 2, 14); //
 const _Tier *_Tier::DIAMOND = new _Tier(3, 1561, 8, 3, 10); //
+const _Tier *_Tier::EMERALD = new _Tier(4, 2617, 12, 6, 15); //
 const _Tier *_Tier::GOLD = new _Tier(0, 32, 12, 0, 22);
 
 Random *Item::random = new Random();
@@ -59,6 +60,9 @@ Item *Item::sword_diamond = NULL;
 Item *Item::shovel_diamond = NULL;
 Item *Item::pickAxe_diamond = NULL;
 Item *Item::hatchet_diamond = NULL;
+
+Item* Item::sword_emerald = NULL;
+Item* Item::pickAxe_emerald = NULL;
 
 Item *Item::stick = NULL;
 Item *Item::bowl = NULL;
@@ -102,6 +106,11 @@ ArmorItem *Item::helmet_diamond = NULL;
 ArmorItem *Item::chestplate_diamond = NULL;
 ArmorItem *Item::leggings_diamond = NULL;
 ArmorItem *Item::boots_diamond = NULL;
+
+ArmorItem* Item::helmet_emerald = NULL;
+ArmorItem* Item::chestplate_emerald = NULL;
+ArmorItem* Item::leggings_emerald = NULL;
+ArmorItem* Item::boots_emerald = NULL;
 
 ArmorItem *Item::helmet_gold = NULL;
 ArmorItem *Item::chestplate_gold = NULL;
@@ -258,6 +267,7 @@ void Item::staticCtor()
 	Item::sword_stone		= ( new WeaponItem(16, _Tier::STONE) )		->setBaseItemTypeAndMaterial(eBaseItemType_sword,	eMaterial_stone)	->setIconName(L"swordStone")->setDescriptionId(IDS_ITEM_SWORD_STONE)->setUseDescriptionId(IDS_DESC_SWORD);
 	Item::sword_iron		= ( new WeaponItem(11, _Tier::IRON) )		->setBaseItemTypeAndMaterial(eBaseItemType_sword,	eMaterial_iron)		->setIconName(L"swordIron")->setDescriptionId(IDS_ITEM_SWORD_IRON)->setUseDescriptionId(IDS_DESC_SWORD);
 	Item::sword_diamond		= ( new WeaponItem(20, _Tier::DIAMOND) )	->setBaseItemTypeAndMaterial(eBaseItemType_sword,	eMaterial_diamond)	->setIconName(L"swordDiamond")->setDescriptionId(IDS_ITEM_SWORD_DIAMOND)->setUseDescriptionId(IDS_DESC_SWORD);
+	Item::sword_emerald = (new WeaponItem(170, _Tier::EMERALD))->setBaseItemTypeAndMaterial(eBaseItemType_sword, eMaterial_emerald)->setIconName(L"swordEmerald")->setDescriptionId(IDS_ITEM_SWORD_EMERALD)->setUseDescriptionId(IDS_DESC_SWORD);
 	Item::sword_gold		= ( new WeaponItem(27, _Tier::GOLD) )		->setBaseItemTypeAndMaterial(eBaseItemType_sword,	eMaterial_gold)		->setIconName(L"swordGold")->setDescriptionId(IDS_ITEM_SWORD_GOLD)->setUseDescriptionId(IDS_DESC_SWORD);
 
 	Item::shovel_wood		= ( new ShovelItem(13, _Tier::WOOD) )		->setBaseItemTypeAndMaterial(eBaseItemType_shovel,	eMaterial_wood)		->setIconName(L"shovelWood")->setDescriptionId(IDS_ITEM_SHOVEL_WOOD)->setUseDescriptionId(IDS_DESC_SHOVEL);
@@ -270,6 +280,7 @@ void Item::staticCtor()
 	Item::pickAxe_stone		= ( new PickaxeItem(18, _Tier::STONE) )		->setBaseItemTypeAndMaterial(eBaseItemType_pickaxe,	eMaterial_stone)	->setIconName(L"pickaxeStone")->setDescriptionId(IDS_ITEM_PICKAXE_STONE)->setUseDescriptionId(IDS_DESC_PICKAXE);
 	Item::pickAxe_iron		= ( new PickaxeItem(1, _Tier::IRON) )		->setBaseItemTypeAndMaterial(eBaseItemType_pickaxe,	eMaterial_iron)		->setIconName(L"pickaxeIron")->setDescriptionId(IDS_ITEM_PICKAXE_IRON)->setUseDescriptionId(IDS_DESC_PICKAXE);
 	Item::pickAxe_diamond	= ( new PickaxeItem(22, _Tier::DIAMOND) )	->setBaseItemTypeAndMaterial(eBaseItemType_pickaxe,	eMaterial_diamond)	->setIconName(L"pickaxeDiamond")->setDescriptionId(IDS_ITEM_PICKAXE_DIAMOND)->setUseDescriptionId(IDS_DESC_PICKAXE);
+	Item::pickAxe_emerald = (new PickaxeItem(171, _Tier::EMERALD))->setBaseItemTypeAndMaterial(eBaseItemType_pickaxe, eMaterial_emerald)->setIconName(L"pickaxeEmerald")->setDescriptionId(IDS_ITEM_PICKAXE_EMERALD)->setUseDescriptionId(IDS_DESC_PICKAXE);
 	Item::pickAxe_gold		= ( new PickaxeItem(29, _Tier::GOLD) )		->setBaseItemTypeAndMaterial(eBaseItemType_pickaxe,	eMaterial_gold)		->setIconName(L"pickaxeGold")->setDescriptionId(IDS_ITEM_PICKAXE_GOLD)->setUseDescriptionId(IDS_DESC_PICKAXE);
 
 	Item::hatchet_wood		= ( new HatchetItem(15, _Tier::WOOD) )		->setBaseItemTypeAndMaterial(eBaseItemType_hatchet,	eMaterial_wood)		->setIconName(L"hatchetWood")->setDescriptionId(IDS_ITEM_HATCHET_WOOD)->setUseDescriptionId(IDS_DESC_HATCHET);
@@ -290,16 +301,19 @@ void Item::staticCtor()
 	Item::helmet_leather		= (ArmorItem *) ( ( new ArmorItem(42, ArmorItem::ArmorMaterial::CLOTH, 0, ArmorItem::SLOT_HEAD) )			->setBaseItemTypeAndMaterial(eBaseItemType_helmet,	eMaterial_cloth)		->setIconName(L"helmetCloth")->setDescriptionId(IDS_ITEM_HELMET_CLOTH)->setUseDescriptionId(IDS_DESC_HELMET_LEATHER) );
 	Item::helmet_iron		= (ArmorItem *) ( ( new ArmorItem(50, ArmorItem::ArmorMaterial::IRON, 2, ArmorItem::SLOT_HEAD) )			->setBaseItemTypeAndMaterial(eBaseItemType_helmet,	eMaterial_iron)			->setIconName(L"helmetIron")->setDescriptionId(IDS_ITEM_HELMET_IRON)->setUseDescriptionId(IDS_DESC_HELMET_IRON) );
 	Item::helmet_diamond	= (ArmorItem *) ( ( new ArmorItem(54, ArmorItem::ArmorMaterial::DIAMOND, 3, ArmorItem::SLOT_HEAD) )			->setBaseItemTypeAndMaterial(eBaseItemType_helmet,	eMaterial_diamond)		->setIconName(L"helmetDiamond")->setDescriptionId(IDS_ITEM_HELMET_DIAMOND)->setUseDescriptionId(IDS_DESC_HELMET_DIAMOND) );
+	Item::helmet_emerald = (ArmorItem*)((new ArmorItem(166, ArmorItem::ArmorMaterial::EMERALD, 5, ArmorItem::SLOT_HEAD))					->setBaseItemTypeAndMaterial(eBaseItemType_helmet, eMaterial_emerald)->setIconName(L"helmetEmerald")->setDescriptionId(IDS_ITEM_HELMET_EMERALD)->setUseDescriptionId(IDS_DESC_HELMET_EMERALD));
 	Item::helmet_gold		= (ArmorItem *) ( ( new ArmorItem(58, ArmorItem::ArmorMaterial::GOLD, 4, ArmorItem::SLOT_HEAD) )			->setBaseItemTypeAndMaterial(eBaseItemType_helmet,	eMaterial_gold)			->setIconName(L"helmetGold")->setDescriptionId(IDS_ITEM_HELMET_GOLD)->setUseDescriptionId(IDS_DESC_HELMET_GOLD) );
 
 	Item::chestplate_leather	= (ArmorItem *) ( ( new ArmorItem(43, ArmorItem::ArmorMaterial::CLOTH, 0, ArmorItem::SLOT_TORSO) )			->setBaseItemTypeAndMaterial(eBaseItemType_chestplate,	eMaterial_cloth)	->setIconName(L"chestplateCloth")->setDescriptionId(IDS_ITEM_CHESTPLATE_CLOTH)->setUseDescriptionId(IDS_DESC_CHESTPLATE_LEATHER) );
 	Item::chestplate_iron		= (ArmorItem *) ( ( new ArmorItem(51, ArmorItem::ArmorMaterial::IRON, 2, ArmorItem::SLOT_TORSO) )			->setBaseItemTypeAndMaterial(eBaseItemType_chestplate,	eMaterial_iron)		->setIconName(L"chestplateIron")->setDescriptionId(IDS_ITEM_CHESTPLATE_IRON)->setUseDescriptionId(IDS_DESC_CHESTPLATE_IRON) );
 	Item::chestplate_diamond	= (ArmorItem *) ( ( new ArmorItem(55, ArmorItem::ArmorMaterial::DIAMOND, 3, ArmorItem::SLOT_TORSO) )		->setBaseItemTypeAndMaterial(eBaseItemType_chestplate,	eMaterial_diamond)	->setIconName(L"chestplateDiamond")->setDescriptionId(IDS_ITEM_CHESTPLATE_DIAMOND)->setUseDescriptionId(IDS_DESC_CHESTPLATE_DIAMOND) );
+	Item::chestplate_emerald = (ArmorItem*)((new ArmorItem(167, ArmorItem::ArmorMaterial::EMERALD, 5, ArmorItem::SLOT_TORSO))->setBaseItemTypeAndMaterial(eBaseItemType_chestplate, eMaterial_emerald)->setIconName(L"chestplateEmerald")->setDescriptionId(IDS_ITEM_CHESTPLATE_EMERALD)->setUseDescriptionId(IDS_DESC_CHESTPLATE_EMERALD));
 	Item::chestplate_gold		= (ArmorItem *) ( ( new ArmorItem(59, ArmorItem::ArmorMaterial::GOLD, 4, ArmorItem::SLOT_TORSO) )			->setBaseItemTypeAndMaterial(eBaseItemType_chestplate,	eMaterial_gold)		->setIconName(L"chestplateGold")->setDescriptionId(IDS_ITEM_CHESTPLATE_GOLD)->setUseDescriptionId(IDS_DESC_CHESTPLATE_GOLD) );
 
 	Item::leggings_leather	= (ArmorItem *) ( ( new ArmorItem(44, ArmorItem::ArmorMaterial::CLOTH, 0, ArmorItem::SLOT_LEGS) )			->setBaseItemTypeAndMaterial(eBaseItemType_leggings,	eMaterial_cloth)	->setIconName(L"leggingsCloth")->setDescriptionId(IDS_ITEM_LEGGINGS_CLOTH)->setUseDescriptionId(IDS_DESC_LEGGINGS_LEATHER) );
 	Item::leggings_iron		= (ArmorItem *) ( ( new ArmorItem(52, ArmorItem::ArmorMaterial::IRON, 2, ArmorItem::SLOT_LEGS) )			->setBaseItemTypeAndMaterial(eBaseItemType_leggings,	eMaterial_iron)		->setIconName(L"leggingsIron")->setDescriptionId(IDS_ITEM_LEGGINGS_IRON)->setUseDescriptionId(IDS_DESC_LEGGINGS_IRON) );
 	Item::leggings_diamond	= (ArmorItem *) ( ( new ArmorItem(56, ArmorItem::ArmorMaterial::DIAMOND, 3, ArmorItem::SLOT_LEGS) )			->setBaseItemTypeAndMaterial(eBaseItemType_leggings,	eMaterial_diamond)	->setIconName(L"leggingsDiamond")->setDescriptionId(IDS_ITEM_LEGGINGS_DIAMOND)->setUseDescriptionId(IDS_DESC_LEGGINGS_DIAMOND) );
+	Item::leggings_emerald = (ArmorItem*)((new ArmorItem(168, ArmorItem::ArmorMaterial::EMERALD, 5, ArmorItem::SLOT_LEGS))					->setBaseItemTypeAndMaterial(eBaseItemType_leggings, eMaterial_emerald)->setIconName(L"leggingsEmerald")->setDescriptionId(IDS_ITEM_LEGGINGS_EMERALD)->setUseDescriptionId(IDS_DESC_LEGGINGS_EMERALD));
 	Item::leggings_gold		= (ArmorItem *) ( ( new ArmorItem(60, ArmorItem::ArmorMaterial::GOLD, 4, ArmorItem::SLOT_LEGS) )			->setBaseItemTypeAndMaterial(eBaseItemType_leggings,	eMaterial_gold)		->setIconName(L"leggingsGold")->setDescriptionId(IDS_ITEM_LEGGINGS_GOLD)->setUseDescriptionId(IDS_DESC_LEGGINGS_GOLD) );
 
 	Item::helmet_chain		= (ArmorItem *) ( ( new ArmorItem(46, ArmorItem::ArmorMaterial::CHAIN, 1, ArmorItem::SLOT_HEAD) )			->setBaseItemTypeAndMaterial(eBaseItemType_helmet,		eMaterial_chain)	->setIconName(L"helmetChain")->setDescriptionId(IDS_ITEM_HELMET_CHAIN)->setUseDescriptionId(IDS_DESC_HELMET_CHAIN) );
@@ -310,6 +324,7 @@ void Item::staticCtor()
 	Item::boots_leather		= (ArmorItem *) ( ( new ArmorItem(45, ArmorItem::ArmorMaterial::CLOTH, 0, ArmorItem::SLOT_FEET) )				->setBaseItemTypeAndMaterial(eBaseItemType_boots,	eMaterial_cloth)		->setIconName(L"bootsCloth")->setDescriptionId(IDS_ITEM_BOOTS_CLOTH)->setUseDescriptionId(IDS_DESC_BOOTS_LEATHER) );
 	Item::boots_iron		= (ArmorItem *) ( ( new ArmorItem(53, ArmorItem::ArmorMaterial::IRON, 2, ArmorItem::SLOT_FEET) )				->setBaseItemTypeAndMaterial(eBaseItemType_boots,	eMaterial_iron)			->setIconName(L"bootsIron")->setDescriptionId(IDS_ITEM_BOOTS_IRON)->setUseDescriptionId(IDS_DESC_BOOTS_IRON) );
 	Item::boots_diamond		= (ArmorItem *) ( ( new ArmorItem(57, ArmorItem::ArmorMaterial::DIAMOND, 3, ArmorItem::SLOT_FEET) )				->setBaseItemTypeAndMaterial(eBaseItemType_boots,	eMaterial_diamond)		->setIconName(L"bootsDiamond")->setDescriptionId(IDS_ITEM_BOOTS_DIAMOND)->setUseDescriptionId(IDS_DESC_BOOTS_DIAMOND) );
+	Item::boots_emerald = (ArmorItem*)((new ArmorItem(169, ArmorItem::ArmorMaterial::EMERALD, 5, ArmorItem::SLOT_FEET))							->setBaseItemTypeAndMaterial(eBaseItemType_boots, eMaterial_emerald)->setIconName(L"bootsEmerald")->setDescriptionId(IDS_ITEM_BOOTS_EMERALD)->setUseDescriptionId(IDS_DESC_BOOTS_EMERALD));
 	Item::boots_gold		= (ArmorItem *) ( ( new ArmorItem(61, ArmorItem::ArmorMaterial::GOLD, 4, ArmorItem::SLOT_FEET) )				->setBaseItemTypeAndMaterial(eBaseItemType_boots,	eMaterial_gold)			->setIconName(L"bootsGold")->setDescriptionId(IDS_ITEM_BOOTS_GOLD)->setUseDescriptionId(IDS_DESC_BOOTS_GOLD) );
 
 	Item::ironIngot = ( new Item(9) )->setIconName(L"ingotIron")					->setBaseItemTypeAndMaterial(eBaseItemType_treasure,	eMaterial_iron)->setDescriptionId(IDS_ITEM_INGOT_IRON)->setUseDescriptionId(IDS_DESC_INGOT);

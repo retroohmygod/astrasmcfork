@@ -2289,3 +2289,14 @@
 #define IDS_RICHPRESENCESTATE_BREWING                          2283
 #define IDS_RICHPRESENCESTATE_ANVIL                            2284
 #define IDS_RICHPRESENCESTATE_TRADING                          2285
+#define IDS_ITEM_HELMET_EMERALD                         2286
+#define IDS_ITEM_CHESTPLATE_EMERALD                         2287
+#define IDS_ITEM_LEGGINGS_EMERALD                         2288
+#define IDS_ITEM_BOOTS_EMERALD                         2289
+#define IDS_DESC_HELMET_EMERALD                         2290
+#define IDS_DESC_CHESTPLATE_EMERALD                         2291
+#define IDS_DESC_LEGGINGS_EMERALD                         2292
+#define IDS_DESC_BOOTS_EMERALD                         2293
+#define IDS_ITEM_SWORD_EMERALD                         2294
+#define IDS_ITEM_PICKAXE_EMERALD                         2295
+

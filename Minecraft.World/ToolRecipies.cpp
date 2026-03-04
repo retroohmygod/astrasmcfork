@@ -33,12 +33,14 @@ void ToolRecipies::_init()
 	ADD_OBJECT(map[0],Tile::cobblestone);
 	ADD_OBJECT(map[0],Item::ironIngot);
 	ADD_OBJECT(map[0],Item::diamond);
+	//ADD_OBJECT(map[0],Item::emerald);
 	ADD_OBJECT(map[0],Item::goldIngot);
 
 	ADD_OBJECT(map[1],Item::pickAxe_wood);
 	ADD_OBJECT(map[1],Item::pickAxe_stone);
 	ADD_OBJECT(map[1],Item::pickAxe_iron);
 	ADD_OBJECT(map[1],Item::pickAxe_diamond);
+	//ADD_OBJECT(map[1],Item::pickAxe_emerald);
 	ADD_OBJECT(map[1],Item::pickAxe_gold);
 
 	ADD_OBJECT(map[2],Item::shovel_wood);

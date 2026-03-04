@@ -157,6 +157,7 @@ public:
 		static const Tier *STONE; //
 		static const Tier *IRON; //
 		static const Tier *DIAMOND; //
+		static const Tier *EMERALD; //
 		static const Tier *GOLD;
 
 	private:
@@ -217,6 +218,9 @@ public:
 	static Item *pickAxe_diamond;
 	static Item *hatchet_diamond;
 
+	static Item* sword_emerald;
+	static Item* pickAxe_emerald;
+
 	static Item *stick;
 	static Item *bowl;
 	static Item *mushroomStew;
@@ -259,6 +263,11 @@ public:
 	static ArmorItem *chestplate_diamond;
 	static ArmorItem *leggings_diamond;
 	static ArmorItem *boots_diamond;
+
+	static ArmorItem* helmet_emerald;
+	static ArmorItem* chestplate_emerald;
+	static ArmorItem* leggings_emerald;
+	static ArmorItem* boots_emerald;
 
 	static ArmorItem *helmet_gold;
 	static ArmorItem *chestplate_gold;
@@ -617,7 +626,12 @@ public:
 	static const int horseArmorDiamond_Id = 419;
 	static const int lead_Id = 420;
 	static const int nameTag_Id = 421;
-
+	static const int helmet_emerald_Id		= 422;
+	static const int chestplate_emerald_Id	= 423;
+	static const int leggings_emerald_Id	= 424;
+	static const int boots_emerald_Id		= 425;
+	static const int sword_emerald_Id		= 426;
+	static const int pickAxe_emerald_Id		= 427;
 public:
 	const int id;
 

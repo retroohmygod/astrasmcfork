@@ -22,12 +22,14 @@ void WeaponRecipies::_init()
 	ADD_OBJECT(map[0],Tile::cobblestone);
 	ADD_OBJECT(map[0],Item::ironIngot);
 	ADD_OBJECT(map[0],Item::diamond);
+	ADD_OBJECT(map[0],Item::emerald);
 	ADD_OBJECT(map[0],Item::goldIngot);
 
 	ADD_OBJECT(map[1],Item::sword_wood);
 	ADD_OBJECT(map[1],Item::sword_stone);
 	ADD_OBJECT(map[1],Item::sword_iron);
 	ADD_OBJECT(map[1],Item::sword_diamond);
+	ADD_OBJECT(map[1],Item::sword_emerald);
 	ADD_OBJECT(map[1],Item::sword_gold);
 }
 
