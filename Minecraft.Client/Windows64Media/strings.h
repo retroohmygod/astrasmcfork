@@ -2302,4 +2302,5 @@
 #define IDS_ITEM_HATCHET_EMERALD                         2296
 #define IDS_ITEM_SHOVEL_EMERALD                         2297
 #define IDS_ITEM_HOE_EMERALD                         2298
+#define IDS_ITEM_RECORD_13                        2299
 

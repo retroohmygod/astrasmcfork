@@ -41,6 +41,7 @@ const _Motive *Painting::Motive::values[] = {
 	new _Motive(L"Pointer", 64, 64, 0 * 16, 12 * 16), //
 	new _Motive(L"Pigscene", 64, 64, 4 * 16, 12 * 16), //
 	new _Motive(L"BurningSkull", 64, 64, 8 * 16, 12 * 16), //
+	new _Motive(L"NoobVSProVSHacker", 64, 64, 12 * 16, 12 * 16), 
 
 	new _Motive(L"Skeleton", 64, 48, 12 * 16, 4 * 16), //
 	new _Motive(L"DonkeyKong", 64, 48, 12 * 16, 7 * 16), //
@@ -49,7 +50,7 @@ const _Motive *Painting::Motive::values[] = {
 // 4J Stu - Rather than creating a new string object here I am just using the
 // actual number value of the characters in "SkullandRoses" which should be the
 // longest name from the above
-const int Painting::Motive::MAX_MOTIVE_NAME_LENGTH =  13; //JAVA: "SkullAndRoses".length();
+const int Painting::Motive::MAX_MOTIVE_NAME_LENGTH =  17; //JAVA: "SkullAndRoses".length();
 
 // 4J - added for common ctor code
 void Painting::_init( Level *level )

@@ -149,7 +149,8 @@ char *SoundEngine::m_szStreamFileA[eStream_Max]=
 	"stal",
 	"strad",
 	"ward",
-	"where_are_we_now"
+	"where_are_we_now",
+	"sky_high"
 };
 
 /////////////////////////////////////////////
@@ -1063,7 +1064,7 @@ int SoundEngine::getMusicID(const wstring& name)
 	char *SoundName = (char *)ConvertSoundPathToName(name,true);
 
 	// 4J-PB - these will always be the game cds, so use the m_szStreamFileA for this
-	for(int i=0;i<12;i++)
+	for(int i=0;i<13;i++)
 	{
 		if(strcmp(SoundName,m_szStreamFileA[i+eStream_CD_1])==0)
 		{

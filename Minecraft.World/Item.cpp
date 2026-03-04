@@ -184,6 +184,7 @@ Item *Item::record_09 = NULL;
 Item *Item::record_10 = NULL;
 Item *Item::record_11 = NULL;
 Item *Item::record_12 = NULL;
+Item *Item::record_13 = NULL;
 
 ShearsItem *Item::shears = NULL;
 
@@ -470,6 +471,8 @@ void Item::staticCtor()
 	Item::record_10 =			( new RecordingItem(2008, L"strad") )								->setIconName(L"record")->setDescriptionId(IDS_ITEM_RECORD_09)->setUseDescriptionId(IDS_DESC_RECORD);
 	Item::record_11 =			( new RecordingItem(2009, L"ward") )								->setIconName(L"record")->setDescriptionId(IDS_ITEM_RECORD_10)->setUseDescriptionId(IDS_DESC_RECORD);
 	Item::record_12 =			( new RecordingItem(2010, L"11") )									->setIconName(L"record")->setDescriptionId(IDS_ITEM_RECORD_11)->setUseDescriptionId(IDS_DESC_RECORD);
+	Item::record_13 =			( new RecordingItem(2012, L"sky high") )							->setIconName(L"record")->setDescriptionId(IDS_ITEM_RECORD_13)->setUseDescriptionId(IDS_DESC_RECORD);
+	
 	Item::record_08 =			( new RecordingItem(2011, L"where are we now") )					->setIconName(L"record")->setDescriptionId(IDS_ITEM_RECORD_12)->setUseDescriptionId(IDS_DESC_RECORD);
 
 	// TU9

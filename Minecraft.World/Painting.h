@@ -48,6 +48,7 @@ public:
 		Pointer, //
 		Pigscene, //
 		BurningSkull, //
+		NoobVSProVSHacker, //
 
 		Skeleton, //
 		DonkeyKong, //
