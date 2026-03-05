@@ -41,7 +41,7 @@ const _Motive *Painting::Motive::values[] = {
 	new _Motive(L"Pointer", 64, 64, 0 * 16, 12 * 16), //
 	new _Motive(L"Pigscene", 64, 64, 4 * 16, 12 * 16), //
 	new _Motive(L"BurningSkull", 64, 64, 8 * 16, 12 * 16), //
-	new _Motive(L"NoobVSProVSHacker", 64, 64, 12 * 16, 12 * 16), 
+	new _Motive(L"NoobVSProVSHacker", 64, 64, 12 * 16, 12 * 16), //
 
 	new _Motive(L"Skeleton", 64, 48, 12 * 16, 4 * 16), //
 	new _Motive(L"DonkeyKong", 64, 48, 12 * 16, 7 * 16), //
