@@ -37,8 +37,4 @@ The headless server also reads and writes `server.properties` in the working dir
 
 ## Build & Run
 
-1. Install Visual Studio 2022
-2. Clone the repository
-3. Open the project by double-clicking `MinecraftConsoles.sln`
-4. Make sure `Minecraft.Client` is set as the Startup Project
-5. Set the build configuration to **Debug** (Release is also OK but has some bugs) and the target platform to **Windows64**, then build and run
+See [COMPILE.md](COMPILE.md)
