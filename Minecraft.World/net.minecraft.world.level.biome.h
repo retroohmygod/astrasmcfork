@@ -30,3 +30,7 @@
 
 //1.2.3
 #include "JungleBiome.h"
+
+//CUSTOM
+
+#include "CherryBiome.h"

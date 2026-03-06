@@ -15,6 +15,7 @@ Biome *Biome::biomes[256];
 
 Biome *Biome::ocean = NULL;
 Biome *Biome::plains = NULL;
+Biome *Biome::cherryBlossom = NULL;
 Biome *Biome::desert = NULL;
 
 Biome *Biome::extremeHills = NULL;
@@ -49,6 +50,7 @@ void Biome::staticCtor()
 
 	Biome::ocean = (new OceanBiome(0))->setColor(0x000070)->setName(L"Ocean")->setDepthAndScale(-1, 0.4f)->setLeafFoliageWaterSkyColor(eMinecraftColour_Grass_Ocean, eMinecraftColour_Foliage_Ocean, eMinecraftColour_Water_Ocean,eMinecraftColour_Sky_Ocean);
 	Biome::plains = (new PlainsBiome(1))->setColor(0x8db360)->setName(L"Plains")->setTemperatureAndDownfall(0.8f, 0.4f)->setLeafFoliageWaterSkyColor(eMinecraftColour_Grass_Plains, eMinecraftColour_Foliage_Plains, eMinecraftColour_Water_Plains,eMinecraftColour_Sky_Plains);
+	Biome::cherryBlossom = (new CherryBiome(23))->setColor(0xFCACEC)->setName(L"Cherry Blossom")->setLeafColor(0xFCACEC)->setTemperatureAndDownfall(0.8f, 0.4f)->setLeafFoliageWaterSkyColor(eMinecraftColour_Grass_Plains, eMinecraftColour_Foliage_Plains, eMinecraftColour_Water_Plains,eMinecraftColour_Sky_Plains);
 	Biome::desert = (new DesertBiome(2))->setColor(0xFA9418)->setName(L"Desert")->setNoRain()->setTemperatureAndDownfall(2, 0)->setDepthAndScale(0.1f, 0.2f)->setLeafFoliageWaterSkyColor(eMinecraftColour_Grass_Desert, eMinecraftColour_Foliage_Desert, eMinecraftColour_Water_Desert,eMinecraftColour_Sky_Desert);
 
 	Biome::extremeHills = (new ExtremeHillsBiome(3))->setColor(0x606060)->setName(L"Extreme Hills")->setDepthAndScale(0.3f, 1.5f)->setTemperatureAndDownfall(0.2f, 0.3f)->setLeafFoliageWaterSkyColor(eMinecraftColour_Grass_ExtremeHills, eMinecraftColour_Foliage_ExtremeHills, eMinecraftColour_Water_ExtremeHills,eMinecraftColour_Sky_ExtremeHills);
@@ -99,6 +101,7 @@ Biome::Biome(int id) : id(id)
 
 	m_grassColor = eMinecraftColour_NOT_SET;
 	m_foliageColor = eMinecraftColour_NOT_SET;
+//	m_cherryColor = eMinecraftColour_NOT_SET;
 	m_waterColor = eMinecraftColour_NOT_SET;
 
 	/*	4J - removing these so that we can consistently return newly created trees via getTreeFeature, and let the calling function be resposible for deleting the returned tree

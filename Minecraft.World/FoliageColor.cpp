@@ -38,3 +38,9 @@ int FoliageColor::getDefaultColor()
 	return Minecraft::GetInstance()->getColourTable()->getColor(eMinecraftColour_Foliage_Default);
 	//return 0x48b518;
 }
+
+//int FoliageColor::getCherryColor()
+//{
+//	return Minecraft::GetInstance()->getColourTable()->getColor(eMinecraftColour_Foliage_Cherry);
+	//return 0xFCACEC;
+//}

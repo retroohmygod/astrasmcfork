@@ -2431,6 +2431,7 @@
     <ClInclude Include="BookshelfTile.h" />
     <ClInclude Include="BossMob.h" />
     <ClInclude Include="Calendar.h" />
+    <ClInclude Include="CherryBiome.h" />
     <ClInclude Include="ColoredTile.h" />
     <ClInclude Include="CommandBlock.h" />
     <ClInclude Include="CommandBlockEntity.h" />
@@ -3501,6 +3502,7 @@
     <ClCompile Include="BookItem.cpp" />
     <ClCompile Include="BookshelfTile.cpp" />
     <ClCompile Include="Calendar.cpp" />
+    <ClCompile Include="CherryBiome.cpp" />
     <ClCompile Include="ColoredTile.cpp" />
     <ClCompile Include="CommandBlock.cpp" />
     <ClCompile Include="CommandBlockEntity.cpp" />

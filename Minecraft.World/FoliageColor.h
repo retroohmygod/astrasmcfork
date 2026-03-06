@@ -14,4 +14,5 @@ public:
 	static int getEvergreenColor();
 	static int getBirchColor();
 	static int getDefaultColor();
+	static int getCherryColor();
 };

@@ -46,8 +46,9 @@ public:
 	static Biome *smallerExtremeHills;
 	static Biome *jungle;
 	static Biome *jungleHills;
+	static Biome *cherryBlossom;
 
-	static const int BIOME_COUNT = 23; // 4J Stu added
+	static const int BIOME_COUNT = 24; // 4J Stu added
 
 public:
 	wstring m_name;
@@ -104,6 +105,7 @@ private:
 	// 4J Added
 	eMinecraftColour m_grassColor;
 	eMinecraftColour m_foliageColor;
+	eMinecraftColour m_cherryColor;
 	eMinecraftColour m_waterColor;
 	eMinecraftColour m_skyColor;
 
@@ -149,5 +151,6 @@ public:
 
 	virtual int getGrassColor();
 	virtual int getFolageColor();
+	//virtual int getCherryColor();
 	virtual int getWaterColor(); // 4J Added
 };
