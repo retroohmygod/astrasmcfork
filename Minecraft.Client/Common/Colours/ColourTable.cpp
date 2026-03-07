@@ -35,6 +35,7 @@ wchar_t *ColourTable::ColourTableElements[eMinecraftColour_COUNT] =
 	L"Foliage_ExtremeHillsEdge",
 	L"Foliage_Jungle",
 	L"Foliage_JungleHills",
+	L"Foliage_CherryBlossom",
 	
 	L"Grass_Common",
 	L"Grass_Ocean",

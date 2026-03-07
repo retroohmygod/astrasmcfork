@@ -1,10 +1,10 @@
 #pragma once
-
 #include "Biome.h"
 
 class CherryBiome : public Biome
 {
-	friend class Biome;
-protected:
-	CherryBiome(int id);
+public:
+    CherryBiome(int id);
+
+	virtual Feature *getTreeFeature(Random *random);
 };

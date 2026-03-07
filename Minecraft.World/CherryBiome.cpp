@@ -1,8 +1,19 @@
 #include "stdafx.h"
+#include "net.minecraft.world.level.levelgen.feature.h"
 #include "net.minecraft.world.level.biome.h"
+#include "net.minecraft.world.entity.animal.h"
+#include "net.minecraft.world.entity.h"
 
 CherryBiome::CherryBiome(int id) : Biome(id)
 {
+	friendlies_wolf.push_back(new MobSpawnerData(eTYPE_WOLF, 5, 4, 4));		// 4J - moved to their own category
+	decorator->treeCount = 10;
+	decorator->grassCount = 2;
+}
 
-	decorator->treeCount = 15;
+Feature *CherryBiome::getTreeFeature(Random *random)
+{
+        return new BasicTree(false); // 4J used to return member fancyTree, now returning newly created object so that caller can be consistently resposible for cleanup
+   
+    return new TreeFeature(false); // 4J used to return member normalTree, now returning newly created object so that caller can be consistently resposible for cleanup
 }
