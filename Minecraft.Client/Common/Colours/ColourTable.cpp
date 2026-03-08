@@ -4,7 +4,7 @@
 
 unordered_map<wstring,eMinecraftColour> ColourTable::s_colourNamesMap;
 
-wchar_t *ColourTable::ColourTableElements[eMinecraftColour_COUNT] =
+const wchar_t *ColourTable::ColourTableElements[eMinecraftColour_COUNT] =
 {
 	L"NOTSET",
 
@@ -356,7 +356,7 @@ void ColourTable::loadColoursFromData(PBYTE pbData, DWORD dwLength)
 		wstring colourId = dis.readUTF();
 		int colourValue = dis.readInt();
 		setColour(colourId, colourValue);
-		AUTO_VAR(it,s_colourNamesMap.find(colourId));
+		auto it = s_colourNamesMap.find(colourId); // ?
 	}
 
 	bais.reset();
@@ -364,7 +364,7 @@ void ColourTable::loadColoursFromData(PBYTE pbData, DWORD dwLength)
 
 void ColourTable::setColour(const wstring &colourName, int value)
 {
-	AUTO_VAR(it,s_colourNamesMap.find(colourName));
+	auto it = s_colourNamesMap.find(colourName);
 	if(it != s_colourNamesMap.end())
 	{
 		m_colourValues[(int)it->second] = value;

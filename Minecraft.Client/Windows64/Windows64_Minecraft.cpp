@@ -22,6 +22,9 @@
 #include "..\..\Minecraft.World\net.minecraft.world.level.tile.h"
 
 #include "..\ClientConnection.h"
+#include "..\Minecraft.h"
+#include "..\ChatScreen.h"
+#include "KeyboardMouseInput.h"
 #include "..\User.h"
 #include "..\..\Minecraft.World\Socket.h"
 #include "..\..\Minecraft.World\ThreadName.h"
@@ -40,7 +43,10 @@
 #include "Resource.h"
 #include "..\..\Minecraft.World\compression.h"
 #include "..\..\Minecraft.World\OldChunkStorage.h"
+#include "Common/PostProcesser.h"
+#include "..\GameRenderer.h"
 #include "Network\WinsockNetLayer.h"
+#include "Windows64_Xuid.h"
 
 #include "Xbox/resource.h"
 
@@ -109,6 +115,7 @@ struct Win64LaunchOptions
 {
 	int screenMode;
 	bool serverMode;
+	bool fullscreen;
 };
 
 static void CopyWideArgToAnsi(LPCWSTR source, char* dest, size_t destSize)
@@ -255,6 +262,8 @@ static Win64LaunchOptions ParseLaunchOptions()
 					g_Win64MultiplayerPort = (int)port;
 			}
 		}
+		else if (_wcsicmp(argv[i], L"-fullscreen") == 0)
+			options.fullscreen = true;
 	}
 
 	LocalFree(argv);
@@ -564,11 +573,33 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		g_KBMInput.SetWindowFocused(true);
 		break;
 
+	case WM_CHAR:
+		// Buffer typed characters so UIScene_Keyboard can dispatch them to the Iggy Flash player
+		if (wParam >= 0x20 || wParam == 0x08 || wParam == 0x0D) // printable chars + backspace + enter
+			g_KBMInput.OnChar(static_cast<wchar_t>(wParam));
+		break;
+
 	case WM_KEYDOWN:
 	case WM_SYSKEYDOWN:
 	{
-		int vk = (int)wParam;
-		if (lParam & 0x40000000) break; // ignore auto-repeat
+		int vk = static_cast<int>(wParam);
+		if ((lParam & 0x40000000) && vk != VK_LEFT && vk != VK_RIGHT && vk != VK_BACK)
+			break;
+#ifdef _WINDOWS64
+		Minecraft* pm = Minecraft::GetInstance();
+		ChatScreen* chat = pm && pm->screen ? dynamic_cast<ChatScreen*>(pm->screen) : nullptr;
+		if (chat)
+		{
+			if (vk == 'V' && (GetKeyState(VK_CONTROL) & 0x8000))
+				{ chat->handlePasteRequest(); break; }
+			if ((vk == VK_UP || vk == VK_DOWN) && !(lParam & 0x40000000))
+				{ if (vk == VK_UP) chat->handleHistoryUp(); else chat->handleHistoryDown(); break; }
+			if (vk >= '1' && vk <= '9') // Prevent hotkey conflicts
+				break;
+			if (vk == VK_SHIFT)
+				break;
+		}
+#endif
 		if (vk == VK_SHIFT)
 			vk = (MapVirtualKey((lParam >> 16) & 0xFF, MAPVK_VSC_TO_VK_EX) == VK_RSHIFT) ? VK_RSHIFT : VK_LSHIFT;
 		else if (vk == VK_CONTROL)
@@ -576,12 +607,12 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		else if (vk == VK_MENU)
 			vk = (lParam & (1 << 24)) ? VK_RMENU : VK_LMENU;
 		g_KBMInput.OnKeyDown(vk);
-		break;
+		return DefWindowProc(hWnd, message, wParam, lParam);
 	}
 	case WM_KEYUP:
 	case WM_SYSKEYUP:
 	{
-		int vk = (int)wParam;
+		int vk = static_cast<int>(wParam);
 		if (vk == VK_SHIFT)
 			vk = (MapVirtualKey((lParam >> 16) & 0xFF, MAPVK_VSC_TO_VK_EX) == VK_RSHIFT) ? VK_RSHIFT : VK_LSHIFT;
 		else if (vk == VK_CONTROL)
@@ -874,6 +905,8 @@ HRESULT InitDevice()
 
 	RenderManager.Initialise(g_pd3dDevice, g_pSwapChain);
 
+	PostProcesser::GetInstance().Init();
+
 	return S_OK;
 }
 
@@ -993,9 +1026,6 @@ static Minecraft* InitialiseMinecraftRuntime()
 
 	app.InitGameSettings();
 	app.InitialiseTips();
-
-	pMinecraft->options->set(Options::Option::MUSIC, 1.0f);
-	pMinecraft->options->set(Options::Option::SOUND, 1.0f);
 
 	return pMinecraft;
 }
@@ -1212,6 +1242,12 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 	Win64LaunchOptions launchOptions = ParseLaunchOptions();
 	ApplyScreenMode(launchOptions.screenMode);
 
+	// Ensure uid.dat exists from startup in client mode (before any multiplayer/login path).
+	if (!launchOptions.serverMode)
+	{
+		Win64Xuid::ResolvePersistentXuid();
+	}
+
 	// If no username, let's fall back
 	if (g_Win64Username[0] == 0)
 	{
@@ -1220,6 +1256,72 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 	}
 
 	MultiByteToWideChar(CP_ACP, 0, g_Win64Username, -1, g_Win64UsernameW, 17);
+
+	// convert servers.txt to servers.db
+	if (GetFileAttributesA("servers.txt") != INVALID_FILE_ATTRIBUTES &&
+		GetFileAttributesA("servers.db") == INVALID_FILE_ATTRIBUTES)
+	{
+		FILE* txtFile = nullptr;
+		if (fopen_s(&txtFile, "servers.txt", "r") == 0 && txtFile)
+		{
+			struct MigEntry { std::string ip; uint16_t port; std::string name; };
+			std::vector<MigEntry> migEntries;
+			char line[512];
+
+			while (fgets(line, sizeof(line), txtFile))
+			{
+				int l = (int)strlen(line);
+				while (l > 0 && (line[l - 1] == '\n' || line[l - 1] == '\r' || line[l - 1] == ' '))
+					line[--l] = '\0';
+				if (l == 0) continue;
+
+				std::string srvIP = line;
+
+				if (!fgets(line, sizeof(line), txtFile)) break;
+				l = (int)strlen(line);
+				while (l > 0 && (line[l - 1] == '\n' || line[l - 1] == '\r' || line[l - 1] == ' '))
+					line[--l] = '\0';
+				uint16_t srvPort = (uint16_t)atoi(line);
+
+				std::string srvName;
+				if (fgets(line, sizeof(line), txtFile))
+				{
+					l = (int)strlen(line);
+					while (l > 0 && (line[l - 1] == '\n' || line[l - 1] == '\r' || line[l - 1] == ' '))
+						line[--l] = '\0';
+					srvName = line;
+				}
+
+				if (!srvIP.empty() && srvPort > 0)
+					migEntries.push_back({srvIP, srvPort, srvName});
+			}
+			fclose(txtFile);
+
+			if (!migEntries.empty())
+			{
+				FILE* dbFile = nullptr;
+				if (fopen_s(&dbFile, "servers.db", "wb") == 0 && dbFile)
+				{
+					fwrite("MCSV", 1, 4, dbFile);
+					uint32_t ver = 1;
+					uint32_t cnt = (uint32_t)migEntries.size();
+					fwrite(&ver, sizeof(uint32_t), 1, dbFile);
+					fwrite(&cnt, sizeof(uint32_t), 1, dbFile);
+					for (size_t i = 0; i < migEntries.size(); i++)
+					{
+						uint16_t ipLen = (uint16_t)migEntries[i].ip.length();
+						fwrite(&ipLen, sizeof(uint16_t), 1, dbFile);
+						fwrite(migEntries[i].ip.c_str(), 1, ipLen, dbFile);
+						fwrite(&migEntries[i].port, sizeof(uint16_t), 1, dbFile);
+						uint16_t nameLen = (uint16_t)migEntries[i].name.length();
+						fwrite(&nameLen, sizeof(uint16_t), 1, dbFile);
+						fwrite(migEntries[i].name.c_str(), 1, nameLen, dbFile);
+					}
+					fclose(dbFile);
+				}
+			}
+		}
+	}
 
 	// Initialize global strings
 	MyRegisterClass(hInstance);
@@ -1239,7 +1341,7 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 	}
 
 	// Restore fullscreen state from previous session
-	if (LoadFullscreenOption() && !g_isFullscreen)
+	if (LoadFullscreenOption() && !g_isFullscreen || launchOptions.fullscreen)
 	{
 		ToggleFullscreen();
 	}
@@ -1482,6 +1584,9 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 #endif
 		ui.tick();
 		ui.render();
+
+		pMinecraft->gameRenderer->ApplyGammaPostProcess();
+
 #if 0
 		app.HandleButtonPresses();
 
@@ -1594,6 +1699,14 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 
 				}
 			}
+		}
+
+		// Open chat
+		if (g_KBMInput.IsKeyPressed('T') && app.GetGameStarted() && !ui.GetMenuDisplayed(0) && pMinecraft->screen == NULL)
+		{
+			g_KBMInput.ClearCharBuffer();
+			pMinecraft->setScreen(new ChatScreen());
+			SetFocus(g_hWnd);
 		}
 
 #if 0
@@ -1812,7 +1925,7 @@ SIZE_T WINAPI XMemSize(
 void DumpMem()
 {
 	int totalLeak = 0;
-	for(AUTO_VAR(it, allocCounts.begin()); it != allocCounts.end(); it++ )
+	for( auto it = allocCounts.begin(); it != allocCounts.end(); it++ )
 	{
 		if(it->second > 0 )
 		{
@@ -1860,7 +1973,7 @@ void MemPixStuff()
 
 	int totals[MAX_SECT] = {0};
 
-	for(AUTO_VAR(it, allocCounts.begin()); it != allocCounts.end(); it++ )
+	for( auto it = allocCounts.begin(); it != allocCounts.end(); it++ )
 	{
 		if(it->second > 0 )
 		{
